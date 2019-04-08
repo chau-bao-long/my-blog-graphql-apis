@@ -1,0 +1,13 @@
+{
+  "name": "serverless-blog-lambda",
+  "version": "1.0.0",
+  "description": "GraphQL APIs for my personal blog",
+  "repository": "git@github.com:chau-bao-long/my-blog-graphql-apis.git",
+  "author": "chau.bao.long.vn@gmail.com",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "apollo-server-lambda": "^2.4.8",
+    "graphql": "^14.2.1"
+  }
+}

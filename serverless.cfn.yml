@@ -14,7 +14,7 @@
 
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Startup Kit RESTful API backed by a SimpleTable (DynamoDB).
+Description: GraphQL APIs for my personal blog.
 
 
 Globals:
@@ -36,106 +36,26 @@ Globals:
 
 Resources:
   
-  CreateFunction:
+  GraphqlFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: index.create
-      FunctionName: StartupKitCreateFunction
+      Handler: index.graphqlHandler
+      FunctionName: GraphqlFunction
       Policies: AmazonDynamoDBFullAccess
       Events:
         PostResource:
           Type: Api
           Properties:
-            Path: /todo/new
+            Path: /graphql
             Method: post
 
-  GetAllFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: index.getAll
-      FunctionName: StartupKitGetAllFunction
-      Policies: AmazonDynamoDBReadOnlyAccess
-      Events:
-        GetResource:
-          Type: Api
-          Properties:
-            Path: /todo/all
-            Method: get
 
-  # API functions related to active TODO items
-  
-  GetActiveFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: index.getActive
-      FunctionName: StartupKitGetActiveFunction
-      Policies: AmazonDynamoDBReadOnlyAccess
-      Events:
-        GetResource:
-          Type: Api
-          Properties:
-            Path: /todo/active
-            Method: get
-
-  UpdateActiveFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: index.updateActive
-      FunctionName: StartupKitUpdateActiveFunction
-      Policies: AmazonDynamoDBFullAccess
-      Events:
-        PutResource:
-          Type: Api
-          Properties:
-            Path: /todo/active
-            Method: put
-
-  # API functions related to completed TODO items
-  
-  GetCompleteFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: index.getComplete
-      FunctionName: StartupKitGetCompleteFunction
-      Policies: AmazonDynamoDBReadOnlyAccess
-      Events:
-        GetResource:
-          Type: Api
-          Properties:
-            Path: /todo/complete
-            Method: get
-
-  MarkCompleteFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: index.markComplete
-      FunctionName: StartupKitMarkCompleteFunction
-      Policies: AmazonDynamoDBFullAccess
-      Events:
-        PutResource:
-          Type: Api
-          Properties:
-            Path: /todo/complete
-            Method: put
-
-  DeleteCompleteFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: index.deleteComplete
-      FunctionName: StartupKitDeleteCompleteFunction
-      Policies: AmazonDynamoDBFullAccess
-      Events:
-        DeleteResource:
-          Type: Api
-          Properties:
-            Path: /todo/complete
-            Method: delete
-
-  Table:
+  CommentTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
+      TableName: blog-commments
       PrimaryKey:
-         Name: todo_id
+         Name: id
          Type: String
       ProvisionedThroughput:
          ReadCapacityUnits: 5
