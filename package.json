@@ -8,6 +8,7 @@
   "private": true,
   "dependencies": {
     "apollo-server-lambda": "^2.4.8",
+    "aws-sdk": "^2.437.0",
     "graphql": "^14.2.1"
   }
 }

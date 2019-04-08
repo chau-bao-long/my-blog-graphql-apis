@@ -1,30 +1,14 @@
-# To deploy for the first time, and for each update,
-# run both of the following commands in order:
-#
-# aws cloudformation package \
-# --template-file serverless.cfn.yml \
-# --output-template-file serverless-xfm.cfn.yml \
-# --s3-bucket <your-s3-bucket-name>
-#
-# aws cloudformation deploy \
-# --template-file <path-to-file/serverless-xfm.cfn.yml> \
-# --stack-name StartupKitServerless \
-# --capabilities CAPABILITY_IAM
-
-
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: GraphQL APIs for my personal blog.
 
-
 Globals:
-
   Function:
     Runtime: nodejs8.10
+    Timeout: 30
     Environment:
       Variables:
-        TABLE_NAME: !Ref Table
-
+        TABLE_NAME: !Ref CommentTable
   Api:
     # enable CORS; to make more specific, change the origin wildcard
     # to a particular domain name, e.g. "'www.example.com'"
@@ -33,9 +17,7 @@ Globals:
       AllowHeaders: "'*'"
       AllowOrigin: "'*'"
 
-
 Resources:
-  
   GraphqlFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -49,7 +31,6 @@ Resources:
             Path: /graphql
             Method: post
 
-
   CommentTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
@@ -61,9 +42,7 @@ Resources:
          ReadCapacityUnits: 5
          WriteCapacityUnits: 5
 
-
 Outputs:
-
   ApiUrl:
     Description: URL of the Prod stage of the API endpoint
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod"
