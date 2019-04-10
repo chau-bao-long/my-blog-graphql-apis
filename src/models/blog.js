@@ -1,19 +1,19 @@
-exports.commentTableInfo = {
+exports.blogTableInfo = {
   AttributeDefinitions: [
     {
-      AttributeName: "id", 
-      AttributeType: "S"
+      AttributeName: "blogId", 
+      AttributeType: "S",
     }, 
   ], 
   KeySchema: [
     {
-      AttributeName: "id", 
-      KeyType: "HASH"
+      AttributeName: "blogId", 
+      KeyType: "HASH",
     }, 
   ], 
   ProvisionedThroughput: {
     ReadCapacityUnits: 5, 
     WriteCapacityUnits: 5,
   }, 
-  TableName: process.env.TABLE_NAME,
+  TableName: 'blogs',
 };

@@ -8,7 +8,7 @@ Globals:
     Timeout: 30
     Environment:
       Variables:
-        TABLE_NAME: comments
+        TABLE_NAME: blogs
   Api:
     # enable CORS; to make more specific, change the origin wildcard
     # to a particular domain name, e.g. "'www.example.com'"
@@ -32,11 +32,11 @@ Resources:
             Method: post
 
   CommentTable:
-    Type: AWS::Serverless::SimpleTable
+    Type:  AWS::DynamoDB::Table
     Properties:
-      TableName: commments
+      TableName: blogs
       PrimaryKey:
-         Name: id
+         Name: blogId
          Type: String
       ProvisionedThroughput:
          ReadCapacityUnits: 5

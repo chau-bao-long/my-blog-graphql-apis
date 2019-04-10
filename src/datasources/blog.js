@@ -1,11 +1,12 @@
 const AWS = require('aws-sdk');
-const { commentTableInfo } = require('../models/comment');
+const uuid = require('uuid/v1');
+const { blogTableInfo } = require('../models/blog');
 
 class BlogAPI {
   constructor() {
     this.dynamo = new AWS.DynamoDB.DocumentClient();
     this.database = new AWS.DynamoDB();
-    this.tableName = process.env.TABLE_NAME;
+    this.tableName = 'blogs';
   }
 
   async getCommentsOfBlog(blogId) {
@@ -19,34 +20,28 @@ class BlogAPI {
     }
   }
 
-  async comment(author, content, blogId) {
+  async comment(blogId, author, content) {
     try {
-      const data = await this.dynamo.put({
+      const commentId = uuid();
+      await this.dynamo.put({
         TableName: this.tableName,
-        Item: { author, content, blogId },
+        Item: { blogId, commentId, author, content },
       }).promise();
-      return this._response(200, JSON.stringify(data));
+      return { blogId, commentId, author, content };
     } catch (error) {
-      return this._response(500, error);
+      console.log(error);
     }
   }
 
   async migrate() {
     try {
-      await this.database.createTable(commentTableInfo).promise();
+      await this.database.createTable(blogTableInfo).promise();
       return true;
     } catch (error) {
       console.log(error);
       return false;
     }
   }
-
-  _response(statusCode, body) {
-    return {
-      statusCode,
-      body,
-    }
-  };
 }
 
 module.exports = BlogAPI;

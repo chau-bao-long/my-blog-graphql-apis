@@ -6,21 +6,17 @@ exports.typeDefs = gql`
     hello: String
   }
   type Mutation {
-    comment(author: String!, content: String!, blogId: ID!): HttpResponse
+    comment(blogId: ID!, author: String!, content: String!): Comment
     migrate: Boolean
   }
   type Comment {
-    id: ID!
+    blogId: ID!
+    commentId: ID!
     author: String!
     content: String!
-    blogId: ID!
   }
   type User {
     id: ID!
     email: String!
-  }
-  type HttpResponse {
-    statusCode: Int!
-    body: String
   }
 `;

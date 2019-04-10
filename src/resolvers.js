@@ -6,8 +6,8 @@ module.exports = {
     hello: () => 'Hello world!',
   },
   Mutation: {
-    comment: async (_, { author, content, blogId }, { dataSources }) =>
-      dataSources.blogAPI.comment(author, content, blogId),
+    comment: async (_, { blogId, author, content }, { dataSources }) =>
+      dataSources.blogAPI.comment(blogId, author, content),
     migrate: async (_, __, { dataSources }) => dataSources.blogAPI.migrate(),
   },
 }
