@@ -1,16 +1,20 @@
-const AWS = require('aws-sdk');
 const { ApolloServer } = require('apollo-server-lambda');
 
 const { applyConfig } = require('./src/config');
-const { typeDefs } = require('./src/schema');
-const { resolvers } = require('./src/resolvers/commentResolver');
-
 applyConfig();
 
-const dynamo = new AWS.DynamoDB.DocumentClient();
-const tableName = process.env.TABLE_NAME;
+const { typeDefs } = require('./src/schema');
+const resolvers = require('./src/resolvers');
+const BlogAPI = require('./src/datasources/blog');
 
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  dataSources: () => ({
+    blogAPI: new BlogAPI(),
+  }),
+});
+
 exports.graphqlHandler = server.createHandler();
 
 // exports.create = async (event) => {
@@ -218,6 +222,3 @@ exports.graphqlHandler = server.createHandler();
 //   });
 
 // }
-
-
-

@@ -8,7 +8,7 @@ Globals:
     Timeout: 30
     Environment:
       Variables:
-        TABLE_NAME: !Ref CommentTable
+        TABLE_NAME: comments
   Api:
     # enable CORS; to make more specific, change the origin wildcard
     # to a particular domain name, e.g. "'www.example.com'"
@@ -34,7 +34,7 @@ Resources:
   CommentTable:
     Type: AWS::Serverless::SimpleTable
     Properties:
-      TableName: blog-commments
+      TableName: commments
       PrimaryKey:
          Name: id
          Type: String

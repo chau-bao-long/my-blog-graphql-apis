@@ -1,5 +1,5 @@
 {
-  "body": "eyJ0ZXN0IjoiYm9keSJ9",
+  "body": "{\"query\": \"mutation { migrate }\"}",
   "resource": "graphql",
   "path": "/graphql",
   "httpMethod": "POST",

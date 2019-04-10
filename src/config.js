@@ -3,7 +3,7 @@ const AWS = require('aws-sdk');
 const config = {
   localConfig: {
     region: 'local',
-    endpoint: 'http://localhost:48000'
+    endpoint: 'http://172.28.5.0:8000'
   },
   remoteConfig: {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
