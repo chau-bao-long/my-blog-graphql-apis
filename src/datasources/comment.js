@@ -1,18 +1,20 @@
-const AWS = require('aws-sdk');
 const uuid = require('uuid/v1');
-const { blogTableInfo } = require('../models/blog');
+const { BaseDatasource } = require('./base');
 
-class BlogAPI {
+class CommentDS extends BaseDatasource {
   constructor() {
-    this.dynamo = new AWS.DynamoDB.DocumentClient();
-    this.database = new AWS.DynamoDB();
-    this.tableName = 'blogs';
+    super();
+    this.tableName = 'blog-comments';
   }
 
   async getCommentsOfBlog(blogId) {
     try {
-      const data = await this.dynamo.scan({
+      const data = await this.dynamo.query({
         TableName: this.tableName,
+        KeyConditionExpression: 'blogId = :bid',
+        ExpressionAttributeValues: {
+          ':bid': blogId,
+        },
       }).promise();
       return data.Items;
     } catch (error) {
@@ -32,16 +34,6 @@ class BlogAPI {
       console.log(error);
     }
   }
-
-  async migrate() {
-    try {
-      await this.database.createTable(blogTableInfo).promise();
-      return true;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  }
 }
 
-module.exports = BlogAPI;
+module.exports = CommentDS;

@@ -9,9 +9,8 @@ Globals:
     Environment:
       Variables:
         TABLE_NAME: blogs
+        LAMBDA_AWS_REGION: ap-southeast-1 
   Api:
-    # enable CORS; to make more specific, change the origin wildcard
-    # to a particular domain name, e.g. "'www.example.com'"
     Cors:
       AllowMethods: "'*'"
       AllowHeaders: "'*'"
@@ -32,15 +31,40 @@ Resources:
             Method: post
 
   CommentTable:
-    Type:  AWS::DynamoDB::Table
+    Type: AWS::DynamoDB::Table
     Properties:
-      TableName: blogs
-      PrimaryKey:
-         Name: blogId
-         Type: String
+      TableName: blog-comments
+      AttributeDefinitions:
+        - AttributeName: blogId
+          AttributeType: S,
+        - AttributeName: commentId
+          AttributeType: S,
+      KeySchema:
+        - AttributeName: blogId
+          KeyType: HASH
+        - AttributeName: commentId
+          KeyType: RANGE
       ProvisionedThroughput:
          ReadCapacityUnits: 5
          WriteCapacityUnits: 5
+
+  ViewTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: blog-views
+      AttributeDefinitions:
+        - AttributeName: blogId
+          AttributeType: S,
+        - AttributeName: viewAt
+          AttributeType: S,
+      KeySchema:
+        - AttributeName: blogId
+          KeyType: HASH
+        - AttributeName: viewAt
+          KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
 
 Outputs:
   ApiUrl:

@@ -1,7 +1,11 @@
-exports.blogTableInfo = {
+exports.commentTableInfo = {
   AttributeDefinitions: [
     {
       AttributeName: "blogId", 
+      AttributeType: "S",
+    }, 
+    {
+      AttributeName: "commentId", 
       AttributeType: "S",
     }, 
   ], 
@@ -10,10 +14,14 @@ exports.blogTableInfo = {
       AttributeName: "blogId", 
       KeyType: "HASH",
     }, 
+    {
+      AttributeName: "commentId", 
+      KeyType: "RANGE",
+    }, 
   ], 
   ProvisionedThroughput: {
     ReadCapacityUnits: 5, 
     WriteCapacityUnits: 5,
   }, 
-  TableName: 'blogs',
+  TableName: 'blog-comments',
 };

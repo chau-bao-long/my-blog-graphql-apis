@@ -1,0 +1,45 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: GraphQL APIs for my personal blog.
+Globals:
+  Function:
+    Runtime: nodejs8.10
+    Timeout: 30
+    Environment:
+      Variables:
+        TABLE_NAME: blogs
+        LAMBDA_AWS_REGION: ap-southeast-1
+  Api:
+    Cors:
+      AllowMethods: '''*'''
+      AllowHeaders: '''*'''
+      AllowOrigin: '''*'''
+Resources:
+  GraphqlFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.graphqlHandler
+      FunctionName: GraphqlFunction
+      Policies: AmazonDynamoDBFullAccess
+      Events:
+        PostResource:
+          Type: Api
+          Properties:
+            Path: /graphql
+            Method: post
+      CodeUri: s3://myblog-lambda/4b01bf5328b2beb50ca1625bbfe6033c
+  CommentTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      TableName: blogs
+      PrimaryKey:
+        Name: blogId
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+Outputs:
+  ApiUrl:
+    Description: URL of the Prod stage of the API endpoint
+    Value:
+      Fn::Sub: https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod

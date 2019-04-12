@@ -1,13 +1,19 @@
 module.exports = {
   Query: {
+    viewCount: async(_, { blogId }, { dataSources }) => {
+      return dataSources.viewDS.viewCount(blogId);
+    },
     comments: async (_, { blogId }, { dataSources }) => {
-      return dataSources.blogAPI.getCommentsOfBlog(blogId);
+      return dataSources.commentDS.getCommentsOfBlog(blogId);
     },
     hello: () => 'Hello world!',
   },
   Mutation: {
+    view: async (_, { blogId, userAgent, viewAt }, { dataSources: { viewDS } }) => {
+      return viewDS.view(blogId, userAgent, viewAt);
+    },
     comment: async (_, { blogId, author, content }, { dataSources }) =>
-      dataSources.blogAPI.comment(blogId, author, content),
-    migrate: async (_, __, { dataSources }) => dataSources.blogAPI.migrate(),
+      dataSources.commentDS.comment(blogId, author, content),
+    migrate: async (_, __, { dataSources }) => dataSources.commentDS.migrate(),
   },
 }
