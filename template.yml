@@ -36,9 +36,9 @@ Resources:
       TableName: blog-comments
       AttributeDefinitions:
         - AttributeName: blogId
-          AttributeType: S,
+          AttributeType: S
         - AttributeName: commentId
-          AttributeType: S,
+          AttributeType: S
       KeySchema:
         - AttributeName: blogId
           KeyType: HASH
@@ -54,9 +54,9 @@ Resources:
       TableName: blog-views
       AttributeDefinitions:
         - AttributeName: blogId
-          AttributeType: S,
+          AttributeType: S
         - AttributeName: viewAt
-          AttributeType: S,
+          AttributeType: S
       KeySchema:
         - AttributeName: blogId
           KeyType: HASH

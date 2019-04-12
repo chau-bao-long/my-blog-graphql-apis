@@ -27,14 +27,38 @@ Resources:
           Properties:
             Path: /graphql
             Method: post
-      CodeUri: s3://myblog-lambda/4b01bf5328b2beb50ca1625bbfe6033c
+      CodeUri: s3://myblog-lambda/db89c721b35b32fcd63d6f7796524312
   CommentTable:
-    Type: AWS::Serverless::SimpleTable
+    Type: AWS::DynamoDB::Table
     Properties:
-      TableName: blogs
-      PrimaryKey:
-        Name: blogId
-        Type: String
+      TableName: blog-comments
+      AttributeDefinitions:
+      - AttributeName: blogId
+        AttributeType: S
+      - AttributeName: commentId
+        AttributeType: S
+      KeySchema:
+      - AttributeName: blogId
+        KeyType: HASH
+      - AttributeName: commentId
+        KeyType: RANGE
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+  ViewTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: blog-views
+      AttributeDefinitions:
+      - AttributeName: blogId
+        AttributeType: S
+      - AttributeName: viewAt
+        AttributeType: S
+      KeySchema:
+      - AttributeName: blogId
+        KeyType: HASH
+      - AttributeName: viewAt
+        KeyType: RANGE
       ProvisionedThroughput:
         ReadCapacityUnits: 5
         WriteCapacityUnits: 5
