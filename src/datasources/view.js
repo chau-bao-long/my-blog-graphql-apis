@@ -21,6 +21,24 @@ class ViewDS extends BaseDatasource {
     }
   }
 
+  async getAllViews() {
+    return await this.dynamo.scan({
+      TableName: this.tableName,
+    }).promise();
+  }
+
+  async countViewsPerBlog(acc) {
+    const views = (await this.getAllViews()).Items;
+    views.forEach(v => {
+      if (!acc[v.blogId]) acc[v.blogId] = {};
+      if (acc[v.blogId].viewCount) {
+        acc[v.blogId].viewCount++;
+      } else {
+        acc[v.blogId].viewCount = 1;
+      }
+    });
+  }
+
   async view(blogId, userAgent, viewAt) {
     try {
       await this.dynamo.put({

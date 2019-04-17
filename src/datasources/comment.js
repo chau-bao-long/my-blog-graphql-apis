@@ -22,6 +22,24 @@ class CommentDS extends BaseDatasource {
     }
   }
 
+  async getAllComments() {
+    return await this.dynamo.scan({
+      TableName: this.tableName,
+    }).promise();
+  }
+
+  async countCommentsPerBlog(acc) {
+    const comments = (await this.getAllComments()).Items; 
+    comments.forEach(c => {
+      if (!acc[c.blogId]) acc[c.blogId] = {};
+      if (acc[c.blogId].commentCount) {
+        acc[c.blogId].commentCount++;
+      } else {
+        acc[c.blogId].commentCount = 1;
+      }
+    });
+  }
+
   async comment(blogId, author, content) {
     try {
       const commentId = uuid();

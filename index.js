@@ -17,4 +17,22 @@ const server = new ApolloServer({
   }),
 });
 
-exports.graphqlHandler = server.createHandler();
+exports.graphqlHandler = server.createHandler({
+  cors: {
+    origin: '*',
+    credentials: true,
+  },
+});
+
+exports.options = function(event, context, callback) {
+  var response = {
+    statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      'Access-Control-Allow-Methods': '*',
+      'Access-Control-Allow-Headers': '*',
+    },
+    body: JSON.stringify(event)
+  };
+  context.succeed(response);
+};

@@ -4,6 +4,7 @@ exports.typeDefs = gql`
   type Query {
     viewCount(blogId: ID!): Int
     comments(blogId: ID!): [Comment]
+    socialInfos: [SocialInfo]!
     hello: String
   }
   type Mutation {
@@ -25,5 +26,10 @@ exports.typeDefs = gql`
   type User {
     id: ID!
     email: String!
+  }
+  type SocialInfo {
+    blogId: ID!
+    commentCount: Int
+    viewCount: Int
   }
 `;

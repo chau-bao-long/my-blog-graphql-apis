@@ -6,6 +6,12 @@ module.exports = {
     comments: async (_, { blogId }, { dataSources }) => {
       return dataSources.commentDS.getCommentsOfBlog(blogId);
     },
+    socialInfos: async (_, __, { dataSources }) => {
+      let acc = {};
+      await dataSources.commentDS.countCommentsPerBlog(acc);
+      await dataSources.viewDS.countViewsPerBlog(acc);
+      return Object.keys(acc).reduce((a, key) => [...a, { ...acc[key], blogId: key }] , []);
+    },
     hello: () => 'Hello world!',
   },
   Mutation: {
