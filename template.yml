@@ -18,19 +18,19 @@ Globals:
 
 Resources:
   # create a custom handler to return 200 and appropriate headers for your OPTIONS requests
-  OptionsFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: options-handler
-      Handler: index.options #nodejs
-      Events:
-        Options:
-          Type: Api
-          Properties:
-            Path: /{cors+}
-            Method: OPTIONS
-            Auth:
-              Authorizer: NONE
+  # OptionsFunction:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     FunctionName: options-handler
+  #     Handler: index.options #nodejs
+  #     Events:
+  #       Options:
+  #         Type: Api
+  #         Properties:
+  #           Path: /{cors+}
+  #           Method: OPTIONS
+  #           Auth:
+  #             Authorizer: NONE
   GraphqlFunction:
     Type: AWS::Serverless::Function
     Properties:

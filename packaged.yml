@@ -27,7 +27,7 @@ Resources:
           Properties:
             Path: /graphql
             Method: post
-      CodeUri: s3://myblog-lambda/db89c721b35b32fcd63d6f7796524312
+      CodeUri: s3://myblog-lambda/5e9facde5de8f22b4f0f6e91cdf938ff
   CommentTable:
     Type: AWS::DynamoDB::Table
     Properties:
