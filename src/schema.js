@@ -9,7 +9,7 @@ exports.typeDefs = gql`
   }
   type Mutation {
     view(blogId: ID!, userAgent: String!, viewAt: String!): View
-    comment(blogId: ID!, author: String!, content: String!): Comment
+    comment(blogId: ID!, author: String!, content: String!, createdAt: String!): Comment
     migrate: Boolean
   }
   type Comment {
@@ -17,6 +17,7 @@ exports.typeDefs = gql`
     commentId: ID!
     author: String!
     content: String!
+    createdAt: String!
   }
   type View {
     blogId: ID!

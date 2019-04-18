@@ -40,14 +40,14 @@ class CommentDS extends BaseDatasource {
     });
   }
 
-  async comment(blogId, author, content) {
+  async comment(blogId, author, content, createdAt) {
     try {
       const commentId = uuid();
       await this.dynamo.put({
         TableName: this.tableName,
-        Item: { blogId, commentId, author, content },
+        Item: { blogId, commentId, author, content, createdAt },
       }).promise();
-      return { blogId, commentId, author, content };
+      return { blogId, commentId, author, content, createdAt };
     } catch (error) {
       console.log(error);
     }

@@ -18,8 +18,8 @@ module.exports = {
     view: async (_, { blogId, userAgent, viewAt }, { dataSources: { viewDS } }) => {
       return viewDS.view(blogId, userAgent, viewAt);
     },
-    comment: async (_, { blogId, author, content }, { dataSources }) =>
-      dataSources.commentDS.comment(blogId, author, content),
+    comment: async (_, { blogId, author, content, createdAt }, { dataSources }) =>
+      dataSources.commentDS.comment(blogId, author, content, createdAt),
     migrate: async (_, __, { dataSources }) => dataSources.commentDS.migrate(),
   },
 }
