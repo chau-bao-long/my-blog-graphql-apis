@@ -11,8 +11,8 @@ Globals:
         LAMBDA_AWS_REGION: ap-southeast-1
   Api:
     Cors:
+      AllowHeaders: '''Content-Type, X-Experience-API-Version,Authorization'''
       AllowMethods: '''*'''
-      AllowHeaders: '''*'''
       AllowOrigin: '''*'''
 Resources:
   GraphqlFunction:
@@ -27,7 +27,7 @@ Resources:
           Properties:
             Path: /graphql
             Method: post
-      CodeUri: s3://myblog-lambda/5e9facde5de8f22b4f0f6e91cdf938ff
+      CodeUri: s3://myblog-lambda/f562878d23a95822b79ed5be0db87504
   CommentTable:
     Type: AWS::DynamoDB::Table
     Properties:
